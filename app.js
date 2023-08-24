@@ -1,8 +1,12 @@
 import express from "express";
 import fs from "fs/promises";
+import cors from "cors";
 
 const app = express();
 const port = 3333;
+
+app.use(express.json());// to parse JSON bodies
+app.use(cors());
 
 app.listen(port, () => {
   console.log(`App running on http://localhost:${port}`);
