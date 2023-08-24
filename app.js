@@ -30,3 +30,9 @@ app.get("/users", async (request, response) => {
     console.log(users);
     response.json(users);
 });
+
+// Create user
+app.post("/users", async (request, response) => {
+    const newUser = request.body;
+    console.log(newUser);
+})
