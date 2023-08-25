@@ -5,7 +5,7 @@ import cors from "cors";
 const app = express();
 const port = 3333;
 
-app.use(express.json());// to parse JSON bodies
+app.use(express.json()); // to parse JSON bodies
 app.use(cors());
 
 app.listen(port, () => {
@@ -25,17 +25,19 @@ app.get("/test", (request, response) => {
 // });
 
 app.get("/users", async (request, response) => {
-    const data = await fs.readFile("data.json");
-    const users = JSON.parse(data);
-    console.log(users);
-    response.json(users);
+  const data = await fs.readFile("data.json");
+  const users = JSON.parse(data);
+  console.log(users);
+  users.sort((a, b) => a.name.localeCompare(b.name));
+  console.log(users);
+  response.json(users);
 });
 
 // Create user
 app.post("/users", async (request, response) => {
   const newUser = request.body;
   newUser.id = new Date().getTime();
-    console.log(newUser);
+  console.log(newUser);
 
   const data = await fs.readFile("data.json");
   const users = JSON.parse(data);
@@ -44,8 +46,7 @@ app.post("/users", async (request, response) => {
   console.log(newUser);
   fs.writeFile("data.json", JSON.stringify(users));
   response.json(users);
-
-})
+});
 
 // Update user
 
@@ -55,18 +56,18 @@ app.put("/users/:id", async (request, response) => {
 
   const data = await fs.readFile("data.json");
   const users = JSON.parse(data);
-  
-  let userToUpdate = users.find(user => user.id === id);
+
+  let userToUpdate = users.find((user) => user.id === id);
   const body = request.body;
   console.log(body);
   userToUpdate.image = body.image;
   userToUpdate.mail = body.mail;
   userToUpdate.name = body.name;
   userToUpdate.title = body.title;
-  
+
   fs.writeFile("data.json", JSON.stringify(users));
   response.json(users);
-})
+});
 
 app.delete("/users/:id", async (request, response) => {
   const id = Number(request.params.id);
@@ -75,8 +76,8 @@ app.delete("/users/:id", async (request, response) => {
   const data = await fs.readFile("data.json");
   const users = JSON.parse(data);
 
-  const newUsers = users.filter(user => user.id !== id);
+  const newUsers = users.filter((user) => user.id !== id);
   fs.writeFile("data.json", JSON.stringify(newUsers));
 
   response.json(users);
-})
+});
