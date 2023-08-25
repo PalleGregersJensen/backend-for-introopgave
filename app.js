@@ -33,6 +33,17 @@ app.get("/users", async (request, response) => {
 
 // Create user
 app.post("/users", async (request, response) => {
-    const newUser = request.body;
+  const newUser = request.body;
+  newUser.id = new Date().getTime();
     console.log(newUser);
+
+  const data = await fs.readFile("data.json");
+  const users = JSON.parse(data);
+
+  users.push(newUser);
+  console.log(newUser);
+  fs.writeFile("data.json", JSON.stringify(users));
+  response.json(users);
+
 })
+
