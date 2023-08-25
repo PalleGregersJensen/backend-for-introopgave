@@ -66,5 +66,17 @@ app.put("/users/:id", async (request, response) => {
   
   fs.writeFile("data.json", JSON.stringify(users));
   response.json(users);
+})
 
+app.delete("/users/:id", async (request, response) => {
+  const id = Number(request.params.id);
+  console.log(id);
+
+  const data = await fs.readFile("data.json");
+  const users = JSON.parse(data);
+
+  const newUsers = users.filter(user => user.id !== id);
+  fs.writeFile("data.json", JSON.stringify(newUsers));
+
+  response.json(users);
 })
