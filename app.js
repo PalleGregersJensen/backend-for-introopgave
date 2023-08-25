@@ -47,3 +47,24 @@ app.post("/users", async (request, response) => {
 
 })
 
+// Update user
+
+app.put("/users/:id", async (request, response) => {
+  const id = Number(request.params.id);
+  console.log(id);
+
+  const data = await fs.readFile("data.json");
+  const users = JSON.parse(data);
+  
+  let userToUpdate = users.find(user => user.id === id);
+  const body = request.body;
+  console.log(body);
+  userToUpdate.image = body.image;
+  userToUpdate.mail = body.mail;
+  userToUpdate.name = body.name;
+  userToUpdate.title = body.title;
+  
+  fs.writeFile("data.json", JSON.stringify(users));
+  response.json(users);
+
+})
