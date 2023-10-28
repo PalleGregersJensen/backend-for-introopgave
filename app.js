@@ -69,6 +69,7 @@ app.put("/users/:id", async (request, response) => {
   response.json(users);
 });
 
+// Delete user
 app.delete("/users/:id", async (request, response) => {
   const id = Number(request.params.id);
   console.log(id);
